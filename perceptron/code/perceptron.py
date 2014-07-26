@@ -1,8 +1,9 @@
-from datasetReader import DatasetReader
+import classifier
 import numpy as np
-import matplotlib as plt
-import pylab as pyplt
 
-print 'Hello World'
+class Perceptron(classifier.Classifier):
 
-reader = DatasetReader(3, 4, "train.db", 8, "test.db") 
+        def evaluate(self):
+		return None
+
+
