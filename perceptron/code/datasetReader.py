@@ -1,6 +1,7 @@
 import numpy as np
 import csv
 from sklearn.datasets import make_classification
+from pylab import rand
 
 class DatasetReader():
 
@@ -20,7 +21,9 @@ class DatasetReader():
                 self.load_trainCsv(train_file)
                 self.load_testCsv(test_file)
             else:
-                self.load_random_regression()
+                #self.load_random_regression()
+                #self.load_and_dataset()
+                self.load_separable_dataset()
 
         #######################################################################################
         #  LOADERS                                                                            #
@@ -45,6 +48,61 @@ class DatasetReader():
             self.train_y = train_random_set[1]
             self.test_X  = test_random_set[0]
             self.test_y  = test_random_set[1]
+
+        def load_separable_dataset(self):
+
+            self.train_X = np.zeros([self.num_train_insts, self.num_features])
+            self.train_y = np.zeros([self.num_train_insts])
+            self.test_X = np.zeros([self.num_test_insts, self.num_features])
+            self.test_y = np.zeros([self.num_test_insts])
+
+            for i in xrange(self.num_train_insts / 2):
+                self.train_X[i*2] = [(rand(1)[0]*2-1)/2-0.5, (rand(1)[0]*2-1)/2+0.5, 1]
+                self.train_y[i*2] = 1
+
+                self.train_X[i*2 + 1] = [(rand(1)[0]*2-1)/2+0.5, (rand(1)[0]*2-1)/2-0.5, 1]
+                self.train_y[i*2 + 1] = 0
+
+            for i in xrange(self.num_test_insts / 2):
+                self.test_X[i*2] = [(rand(1)[0]*2-1)/2-0.5, (rand(1)[0]*2-1)/2+0.5, 1]
+                self.test_y[i*2] = 1
+
+                self.test_X[i*2 + 1] = [(rand(1)[0]*2-1)/2+0.5, (rand(1)[0]*2-1)/2-0.5, 1]
+                self.test_y[i*2 + 1] = 0
+
+        def load_and_dataset(self):
+
+            self.num_features    = 3
+            self.num_train_insts = 4
+            self.num_test_insts  = 4
+
+            self.train_X = np.zeros([self.num_train_insts, self.num_features])
+            self.train_y = np.zeros([self.num_train_insts])
+
+            self.test_X = np.zeros([self.num_test_insts, self.num_features])
+            self.test_y = np.zeros([self.num_test_insts])
+
+            # Defines train dataset.
+            self.train_X[0] = [0,0,1]
+            self.train_X[1] = [0,1,1]
+            self.train_X[2] = [1,0,1]
+            self.train_X[3] = [1,1,1]
+
+            self.train_y[0] = 0 
+            self.train_y[1] = 0
+            self.train_y[2] = 0
+            self.train_y[3] = 1
+
+            # Defines test dataset.
+            self.test_X[0] = [0,0,1]
+            self.test_X[1] = [0,1,1]
+            self.test_X[2] = [1,0,1]
+            self.test_X[3] = [1,1,1]
+
+            self.test_y[0] = 0 
+            self.test_y[1] = 0
+            self.test_y[2] = 0
+            self.test_y[3] = 1
 
         #######################################################################################
         #  READERS                                        #

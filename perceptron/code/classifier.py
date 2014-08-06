@@ -27,7 +27,6 @@ class Classifier():
 
             self.weights = np.zeros([self.num_features])
 
-            self.bias = 0
             self.eta  = 0
 
         def train(self):

@@ -18,14 +18,13 @@ class Perceptron(classifier.Classifier):
             weights = np.zeros([self.num_features])
             # The learning step.
             self.eta  = 1
-            self.bias = 0
 
             for i in xrange(self.num_train_insts):
 
                 inst     = self.train_X[i]
                 expected = self.train_y[i]
 
-                pred = self.f(weights.dot(inst) + self.bias)
+                pred = self.f(np.dot(weights, inst))
 
                 # Update weights.
                 if expected != pred:
@@ -39,16 +38,17 @@ class Perceptron(classifier.Classifier):
 
             for i in xrange(self.num_test_insts):
                 inst = self.test_X[i]
-                predictions[i] = self.f(self.weights.dot(inst) + self.bias)
+                predictions[i] = self.f(np.dot(self.weights, inst))
 
             return predictions
 
+        # Assumes bias on the last column.
         def plot(self, predictions):
-            if self.num_features > 2:
-                print "[WARN] Too many features! Will only use the first two..."
+            if self.num_features > 3:
+                print "[WARN] Too many features!..."
 
             # Plots the points.
-            for i in xrange(len(self.test_X)):
+            for i in xrange(self.num_test_insts):
 
                 inst  = self.test_X[i]
                 label = self.test_y[i]
@@ -67,7 +67,7 @@ class Perceptron(classifier.Classifier):
 
             # Plots the decision boundary. The '* 1000' is for giving the 
             # impression of an infinite line.
-            plt.plot([-self.weights[1] * 1000, self.weights[1] * 1000], [self.weights[0] * 1000 + self.bias, -self.weights[0] * 1000 + self.bias])
+            plt.plot([-self.weights[1] * 1000, self.weights[1] * 1000], [self.weights[0] * 1000 + self.weights[2], -self.weights[0] * 1000 + self.weights[2]])
 
             # The decision line is made by two points. We shorten the screen so it
             # will seem like it is an infinite line.
